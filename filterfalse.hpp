@@ -10,7 +10,7 @@ class filterfalse {
 
 public:
      filterfalse (lambda l,container new_container)
-    :cont(new_container),check(l){}
+    :cont(new_container),check(l) {}
 
     class iterator{
         typename container::iterator it_start;
@@ -20,7 +20,11 @@ public:
     public:
         iterator(typename container::iterator start,
         typename container::iterator end,lambda _f) 
-        :it_start(start),it_end(end),check(_f){};
+        :it_start(start),it_end(end),check(_f) {
+            while(it_start != it_end && check(*it_start)){
+                it_start++;
+            }
+        }
 
         iterator &operator++() {
             it_start++;
@@ -45,7 +49,6 @@ public:
         }
 
         decltype(*(cont.begin())) operator*() {
-            if(check(*it_start)) ++(*this);
             return *it_start;
         }
 

@@ -13,26 +13,29 @@ class accumulate {
     public:
     container cont;
     lambda f;
+    typedef typename container::value_type value_type;
 
 public:
-     accumulate (container new_container,lambda l=add())
+    accumulate (container new_container,lambda l=add())
     :cont(new_container),f(l){}
 
     class iterator{
-        decltype(*(cont.begin())) sum;
         typename container::iterator it_start;
         typename container::iterator it_end;
+        typename container::value_type sum;
         lambda f;
 
     public:
-         iterator(typename container::iterator start,typename container::iterator end,lambda _f) 
-        :it_start(start),it_end(end),f(_f),sum(*start){};
+        iterator(typename container::iterator start,typename container::iterator end,lambda _f) 
+        :it_start(start),it_end(end),f(_f) {
+            if (start != end) sum = *start;
+        }
 
         iterator &operator++() {
             ++it_start;
             if (it_start != it_end)
-            sum = f(sum,*it_start);
-            return *this;
+                sum = f(sum,*it_start);
+            return *this; 
         }
 
         const iterator operator++(int) {
@@ -49,7 +52,7 @@ public:
             return it_start != other.it_start;
         }
 
-        decltype(*(cont.begin())) operator*() {
+        auto operator*() {
             return sum;
         }
 

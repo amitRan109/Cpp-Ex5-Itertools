@@ -22,10 +22,15 @@ public:
         iterator(typename cont_a::iterator a,
             typename cont_b::iterator b,
             typename cont_a::iterator end) 
-        :it_a(a),it_b(b),end(end){};
+        :it_a(a),it_b(b),end(end) {
+             while(it_a != end && !(*it_b)){
+                ++it_a;
+                ++it_b;
+            }
+        }
 
         iterator &operator++() {
-            it_a++; it_b++;
+            ++it_a; ++it_b;
             while(it_a != end && !(*it_b)){
                 it_a++;it_b++;
             }
@@ -47,7 +52,6 @@ public:
         }
 
         decltype(*(a.begin())) operator*() {
-            if(!(*it_b)) ++(*this);
             return *it_a;
         }
 

@@ -4,7 +4,8 @@ namespace itertools {
         int start;
         int finish;
     public:
-        range(int a, int b) : start(a), finish(b) {}
+        typedef int value_type;
+        range(int a, int b) : start(a), finish(b){}
 
         class iterator {
             int current;
